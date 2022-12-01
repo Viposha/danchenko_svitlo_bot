@@ -21,6 +21,14 @@ def ivan(message):
 	mess = 'Вставте повідомлення від Івана'
 	bot.send_message(message.chat.id, mess)
 
+	@bot.message_handler(content_types=['text'])
+	def get_user_text(message):
+		with sqlite3.connect(db) as conn:
+			sql = """SELECT chat_id FROM Users"""
+			data = conn.execute(sql)
+			for id in data:
+				bot.send_message(id[0], message.text)
+
 
 
 def extract(message):
@@ -33,7 +41,7 @@ with sqlite3.connect(db) as conn:
 	sql_create_table = """ 
 						CREATE TABLE IF NOT EXISTS Users (
 						id integer PRIMARY KEY,
-						username text NOT NULL,
+						username text,
 						chat_id integer UNIQUE
 						); """
 	c = conn.cursor()
@@ -54,7 +62,6 @@ def write(message):
 			return cur.lastrowid
 	except sqlite3.IntegrityError as error:
 		print(error)
-
 
 
 bot.polling(none_stop=True)
