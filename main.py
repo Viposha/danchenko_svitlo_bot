@@ -16,6 +16,13 @@ def start(message):
 	write(message)
 
 
+@bot.message_handler(commands=['ivan'])
+def ivan(message):
+	mess = 'Вставте повідомлення від Івана'
+	bot.send_message(message.chat.id, mess)
+
+
+
 def extract(message):
 	username = message.from_user.username
 	user_id = message.from_user.id
@@ -23,25 +30,30 @@ def extract(message):
 
 
 with sqlite3.connect(db) as conn:
-	sql_create_table = """ CREATE TABLE IF NOT EXISTS Users (
-	     	                                        id integer PRIMARY KEY,
-	     	                                        username text NOT NULL,
-	     	                                        chat_id integer
-	     	                                    ); """
+	sql_create_table = """ 
+						CREATE TABLE IF NOT EXISTS Users (
+						id integer PRIMARY KEY,
+						username text NOT NULL,
+						chat_id integer UNIQUE
+						); """
 	c = conn.cursor()
 	c.execute(sql_create_table)
 
 
 def write(message):
-	with sqlite3.connect(db) as conn:
-		data = extract(message)
-		base = (data[0], data[1])
-		sql = """ INSERT INTO Users(username,chat_id)
-		                  VALUES(?,?) """
-		cur = conn.cursor()
-		cur.execute(sql, base)
-		conn.commit()
-		return cur.lastrowid
+	try:
+		with sqlite3.connect(db) as conn:
+			data = extract(message)
+			base = (data[0], data[1])
+			sql = """ 
+					INSERT INTO Users(username,chat_id)
+					VALUES(?,?) """
+			cur = conn.cursor()
+			cur.execute(sql, base)
+			conn.commit()
+			return cur.lastrowid
+	except sqlite3.IntegrityError as error:
+		print(error)
 
 
 
