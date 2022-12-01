@@ -26,15 +26,15 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_user_text(message):
-	if 'іван сказав:' in message.text:
-		try:
-			with sqlite3.connect(db) as conn:
-				sql = """SELECT chat_id FROM Users"""
-				data = conn.execute(sql)
-				for id in data:
+	if 'Іван сказав:' in message.text:
+		with sqlite3.connect(db) as conn:
+			sql = """SELECT chat_id FROM Users"""
+			data = conn.execute(sql)
+			for id in data:
+				try:
 					bot.send_message(id[0], message.text)
-		except telebot.apihelper.ApiTelegramException as error:
-			print(error)
+				except telebot.apihelper.ApiTelegramException as error:
+					print(error)
 
 
 def extract(message):
