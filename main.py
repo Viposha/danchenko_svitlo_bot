@@ -1,8 +1,10 @@
 import telebot
 import sqlite3
 from sqlite3 import Error
+
 with open('tok.txt') as f:
 	token = f.readline()
+
 bot = telebot.TeleBot(token)
 db = r"danchenko_svitlo_users.db"
 
