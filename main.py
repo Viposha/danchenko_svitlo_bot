@@ -11,24 +11,30 @@ db = r"danchenko_svitlo_users.db"
 
 @bot.message_handler(commands=['start'])
 def start(message):
-	mess = f'Hello, {message.from_user.first_name}'
+	mess = f'''Привіт, {message.from_user.first_name}. 
+Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
+Наприклад:\nІван сказав: Від ранку я на вихідних до понеділка, тому данні по відключенням можуть бути рідше '''
 	bot.send_message(message.chat.id, mess)
 	write(message)
 
 
-@bot.message_handler(commands=['ivan'])
-def ivan(message):
-	mess = 'Вставте повідомлення від Івана'
-	bot.send_message(message.chat.id, mess)
+# @bot.message_handler(commands=['info'])
+# def info(message):
+# 	mess = 'Напишіть інформацію про освітлення'
+# 	bot.send_message(message.chat.id, mess)
 
-	@bot.message_handler(content_types=['text'])
-	def get_user_text(message):
-		with sqlite3.connect(db) as conn:
-			sql = """SELECT chat_id FROM Users"""
-			data = conn.execute(sql)
-			for id in data:
-				bot.send_message(id[0], message.text)
 
+@bot.message_handler(content_types=['text'])
+def get_user_text(message):
+	if 'іван сказав:' in message.text:
+		try:
+			with sqlite3.connect(db) as conn:
+				sql = """SELECT chat_id FROM Users"""
+				data = conn.execute(sql)
+				for id in data:
+					bot.send_message(id[0], message.text)
+		except telebot.apihelper.ApiTelegramException as error:
+			print(error)
 
 
 def extract(message):
