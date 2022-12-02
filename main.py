@@ -1,16 +1,18 @@
 import telebot
 import sqlite3
 from sqlite3 import Error
+from db_creation import db_create
 
 with open('tok.txt') as f:
 	token = f.readline()
 
 bot = telebot.TeleBot(token)
-db = r"danchenko_svitlo_users.db"
+db = "danchenko_svitlo_users.db"
 
 
 @bot.message_handler(commands=['start'])
 def start(message):
+	db_create(db)
 	mess = f'''Привіт, {message.from_user.first_name}. 
 Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
 Наприклад:\nІван сказав: Від ранку я на вихідних до понеділка, тому данні по відключенням можуть бути рідше '''
@@ -41,17 +43,6 @@ def extract(message):
 	username = message.from_user.username
 	user_id = message.from_user.id
 	return [username, user_id]
-
-
-with sqlite3.connect(db) as conn:
-	sql_create_table = """ 
-						CREATE TABLE IF NOT EXISTS Users (
-						id integer PRIMARY KEY,
-						username text,
-						chat_id integer UNIQUE
-						); """
-	c = conn.cursor()
-	c.execute(sql_create_table)
 
 
 def write(message):
