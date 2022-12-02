@@ -38,10 +38,7 @@ def get_user_text(message):
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
 						print(error)
-						test = id[0]
-						print(test)
-						sql = f"""DELETE FROM Users WHERE chat_id == {test}"""
-						print(test, '2')
+						sql = f"""DELETE FROM Users WHERE chat_id == {id[0]}"""
 						conn.execute(sql)
 
 
