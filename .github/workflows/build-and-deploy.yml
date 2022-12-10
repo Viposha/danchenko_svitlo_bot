@@ -53,7 +53,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSHKEY }}
+          key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQD2bf/ZoL8keGe0EaVULPvyhUxSrcD42BGuPMXDsqFSFhsCJs+nTemSYuvmVFY0fs/rV0SHn9DyDzyg40fgmwro7g8tDG3sbtHDX3fspVeTJGbJUGgGvBenuh6WrvSrtQOC95EdXDpXdYNmbr1+gzNk9oJ5sPaPp8ZkBQzFEqvP1LPPRUI2HBaRIFhUixf7uFf/sUHd7JN6ljlnZtoSDg4nD392GmGoXU+0cmcD4aPjDVykh4reI1+Hu9Iw9zMn2IoktfduZoFWQTE9FHSqlrigKp+tE/U74Dl0hKkL4GFCcuVpjISyqfR7sSAYaQrBF5DJ5Wwtbj8g6xoCQJHVFQDyU1E7mdtPkQRCINoL27o4wo0RQ9gI49g2DXaflJFSmFlR+YNpR6P9yFbDxB3Azo+OH3SqIjbzwTs1o3jolaSKdlMyoTe0BinWZs35uNri1XC1EdUVJSrxMp2FY7KncybmRNrRamT7jgmf34WfLeQmTwVhpHGLc3I3YspI3Vytwnk= Viposha@DESKTOP-9D1KDBO
           envs: IMAGE_NAME,REGISTRY,{{ secrets.DIGITALOCEAN_ACCESS_TOKEN }},GITHUB_SHA
           script: |
             # Login to registry
