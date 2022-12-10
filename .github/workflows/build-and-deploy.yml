@@ -16,7 +16,7 @@ on:
 #2
 env:
   REGISTRY: registry.digitalocean.com/viposha
-  IMAGE_NAME: viposha/bot:bot
+  IMAGE_NAME: viposha/bot
 
 #3
 jobs:
