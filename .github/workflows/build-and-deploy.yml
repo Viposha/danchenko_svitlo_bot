@@ -15,7 +15,7 @@ on:
         required: true
 #2
 env:
-  REGISTRY: viposha
+  REGISTRY: registry.digitalocean.com/viposha
   IMAGE_NAME: viposha/bot:bot
 
 #3
