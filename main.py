@@ -2,11 +2,9 @@ import telebot
 import sqlite3
 from sqlite3 import Error
 from db_creation import db_create
+import os
 
-with open('tok.txt') as f:
-	token = f.readline()
-
-
+token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = "danchenko_svitlo_users.db"
 
