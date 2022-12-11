@@ -6,6 +6,7 @@ from db_creation import db_create
 with open('tok.txt') as f:
 	token = f.readline()
 
+
 bot = telebot.TeleBot(token)
 db = "danchenko_svitlo_users.db"
 
