@@ -14,7 +14,7 @@ def start(message):
 	db_create(db)
 	mess = f'''Привіт, {message.from_user.first_name}. 
 Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
-Наприклад:\nІван сказав: перевірка '''
+Наприклад:\nІван сказав: перевірка 1 '''
 	bot.send_message(message.chat.id, mess)
 	write(message)
 
