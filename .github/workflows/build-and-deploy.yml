@@ -63,6 +63,8 @@ jobs:
             docker stop $(echo $IMAGE_NAME)
             # Remove old container
             docker rm $(echo $IMAGE_NAME)
+            # Remove old image
+            docker image rm $(echo $IMAGE_NAME)
             # Run a new container from a new image
             docker run -d -e TOKEN \
             --restart always \
