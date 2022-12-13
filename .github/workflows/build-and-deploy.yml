@@ -70,8 +70,8 @@ jobs:
             docker image rm $(echo $IMAGE_NAME)
             # Run a new container from a new image
             docker run -d -e TOKEN \
-            #Copy db from host to container
-            docker cp /$(echo $User)/danchenko_svitlo_users.db $(echo $IMAGE_NAME):/danchenko_svitlo_bot/
             --restart always \
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
+            #Copy db from host to container
+            docker cp /$(echo $User)/danchenko_svitlo_users.db $(echo $IMAGE_NAME):/danchenko_svitlo_bot/
