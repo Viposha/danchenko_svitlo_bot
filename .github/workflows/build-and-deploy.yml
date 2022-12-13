@@ -61,7 +61,7 @@ jobs:
             # Login to registry
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
             # Copy last version of db from container to host
-            # docker cp $(echo $IMAGE_NAME):/danchenko_svitlo_bot/danchenko_svitlo_users.db .
+            docker cp $(echo $IMAGE_NAME):/danchenko_svitlo_bot/danchenko_svitlo_users.db .
             # Stop running container
             docker stop $(echo $IMAGE_NAME)
             # Remove old container
