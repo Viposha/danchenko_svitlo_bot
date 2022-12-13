@@ -74,4 +74,4 @@ jobs:
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
             # Copy db from host to container
-            # docker exec $(echo $IMAGE_NAME) cp /$(echo $User)/danchenko_svitlo_users.db $(echo $IMAGE_NAME):/danchenko_svitlo_bot/
+            docker exec $(echo $IMAGE_NAME) cp /$(echo $User)/danchenko_svitlo_users.db $(echo $IMAGE_NAME):/danchenko_svitlo_bot/
