@@ -1,17 +1,14 @@
 import telebot
 import sqlite3
-from sqlite3 import Error
-from db_creation import db_create
 import os
 
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
-db = "danchenko_svitlo_users.db"
+db = "users.db"
 
 
 @bot.message_handler(commands=['start'])
 def start(message):
-	db_create(db)
 	mess = f'''Привіт, {message.from_user.first_name}. 
 Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
 Наприклад:\nІван сказав: перевірка 1 '''
