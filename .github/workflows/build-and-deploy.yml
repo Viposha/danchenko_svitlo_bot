@@ -5,7 +5,7 @@ name: CI
 on:
   # Triggers the workflow on push events but only for the master branch
   push:
-    branches: [ main ]
+    branches: [ test_2 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -60,6 +60,7 @@ jobs:
             # Login to registry
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
             # Stop running container
+            docker cp $(echo $IMAGE_NAME):/danchenko_svitlo_bot/requirements.txt .
             docker stop $(echo $IMAGE_NAME)
             # Remove old container
             docker rm $(echo $IMAGE_NAME)
