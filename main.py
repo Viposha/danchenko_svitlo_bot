@@ -11,7 +11,6 @@ db = "danchenko_svitlo_users.db"
 
 @bot.message_handler(commands=['start'])
 def start(message):
-	db_create(db)
 	mess = f'''Привіт, {message.from_user.first_name}. 
 Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
 Наприклад:\nІван сказав: перевірка 2 '''
@@ -64,3 +63,6 @@ def write(message):
 
 
 bot.polling(none_stop=True)
+
+if __name__ == "__main__":
+	db_create(db)
