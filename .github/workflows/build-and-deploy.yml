@@ -60,6 +60,8 @@ jobs:
           script: |
             # Login to registry
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
+            # Remove old image
+            docker image prune -a -f
             # Stop running container
             docker stop $(echo $IMAGE_NAME)
             # Remove old container
