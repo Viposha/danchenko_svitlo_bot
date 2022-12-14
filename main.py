@@ -7,7 +7,6 @@ import os
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = "danchenko_svitlo_users.db"
-db_create(db)
 
 
 @bot.message_handler(commands=['start'])
