@@ -32,7 +32,7 @@ def get_user_text(message):
 			data = conn.execute(sql)
 			for chat_id in data:
 				try:
-					bot.send_message(chat_id[0], 'Bot is under construction')
+					bot.send_message(chat_id[0], 'Bot is under construction!')
 					# bot.send_message(chat_id[0], message.text)
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
