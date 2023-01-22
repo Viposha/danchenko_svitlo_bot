@@ -168,7 +168,7 @@ def test():
 		data = conn.execute(sql)
 		for chat_id in data:
 			try:
-				bot.send_message(chat_id[0], 'перевірка')
+				bot.send_message(chat_id[0], 'перевірка_schedule')
 			except telebot.apihelper.ApiTelegramException as error:
 				if "Forbidden: bot was blocked by the user" in error.description:
 					print(error)
@@ -176,10 +176,8 @@ def test():
 					conn.execute(sql)
 
 
-test()
 
-
-schedule.every(10).seconds.do(switch_electricity)
+schedule.every(10).seconds.do(test)
 
 bot.polling(none_stop=True)
 while True:
