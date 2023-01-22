@@ -3,6 +3,7 @@ import sqlite3
 from sqlite3 import Error
 from db_creation import db_create
 import os
+from telebot import types
 
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
@@ -11,34 +12,54 @@ db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
 
 @bot.message_handler(commands=['start'])
 def start(message):
-	mess = f'''Привіт, {message.from_user.first_name}. 
-Щоб надати інформацію по освітленню напиши фразу Іван сказав: сюди встав повідомлення від Івана\n
-Наприклад:\nІван сказав: перевірка 2 '''
-	bot.send_message(message.chat.id, mess)
+	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+	btn1 = types.KeyboardButton("Є інформація від Івана. Він пише:")
+	btn2 = types.KeyboardButton("Додаткова інформація")
+	markup.add(btn1, btn2)
+	bot.send_message(message.chat.id,
+					 text="Привіт, {0.first_name}!\nТут ти можеш дізнатися про наявність світла. "
+						  "За орієнтир взято будинок по вул.Данченко 28.\n"
+						  "Інформацію від енергетика Івана про планові дії\n"
+						  "Та додаткову інформацію по освітленню".format(message.from_user), reply_markup=markup)
 	write(message)
 
 
-# @bot.message_handler(commands=['info'])
-# def info(message):
-# 	mess = 'Напишіть інформацію про освітлення'
-# 	bot.send_message(message.chat.id, mess)
-
-
 @bot.message_handler(content_types=['text'])
-def get_user_text(message):
-	if 'Іван сказав:' in message.text:
-		with sqlite3.connect(db) as conn:
-			sql = """SELECT chat_id FROM Users"""
-			data = conn.execute(sql)
-			for chat_id in data:
-				try:
-					bot.send_message(chat_id[0], 'Bot is under construction!')
-					# bot.send_message(chat_id[0], message.text)
-				except telebot.apihelper.ApiTelegramException as error:
-					if "Forbidden: bot was blocked by the user" in error.description:
-						print(error)
-						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-						conn.execute(sql)
+def get_usr_text(message):
+	if (message.text == "Є інформація від Івана. Він пише:"):
+		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
+
+	elif (message.text == "Додаткова інформація"):
+		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+		btn1 = types.KeyboardButton("Чи є світло зараз?")
+		btn2 = types.KeyboardButton("Який графік по Данченко 28?")
+		btn3 = types.KeyboardButton("Який графік по іншій адресі?")
+		back = types.KeyboardButton("Повернутися назад")
+		markup.add(btn1, btn2, btn3, back)
+		bot.send_message(message.chat.id, text="Що Вас цікавить?", reply_markup=markup)
+
+	elif (message.text == "Повернутися назад"):
+		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+		button1 = types.KeyboardButton("Є інформація від Івана. Він пише:")
+		button2 = types.KeyboardButton("Додаткова інформація")
+		markup.add(button1, button2)
+		bot.send_message(message.chat.id, text="Ви повернулися в головне меню", reply_markup=markup)
+	else:
+		bot.send_message(message.chat.id, text="Ця команда недоступна")
+
+
+def text_from_ivan(message):
+	with sqlite3.connect(db) as conn:
+		sql = """SELECT chat_id FROM Users"""
+		data = conn.execute(sql)
+		for chat_id in data:
+			try:
+				bot.send_message(chat_id[0], message.text)
+			except telebot.apihelper.ApiTelegramException as error:
+				if "Forbidden: bot was blocked by the user" in error.description:
+					print(error)
+					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
+					conn.execute(sql)
 
 
 def extract(message):
@@ -64,4 +85,3 @@ def write(message):
 
 
 bot.polling(none_stop=True)
-
