@@ -49,6 +49,9 @@ def get_usr_text(message):
 
 
 def text_from_ivan(message):
+
+	"""Відправляю повідомлення (Що сказав Іван) всім юзерам з бази даних"""
+
 	with sqlite3.connect(db) as conn:
 		sql = """SELECT chat_id FROM Users"""
 		data = conn.execute(sql)
@@ -69,6 +72,9 @@ def extract(message):
 
 
 def write(message):
+
+	""" Add user which push /start to db"""
+
 	try:
 		with sqlite3.connect(db) as conn:
 			data = extract(message)
