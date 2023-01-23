@@ -10,7 +10,7 @@ hostname = '188.190.241.223'
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
-sched = BackgroundScheduler
+sched = BackgroundScheduler()
 
 
 
@@ -109,7 +109,7 @@ def test():
 
 
 result = [0]
-def job():
+def switch():
 
 	"""функція пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
 
@@ -144,8 +144,7 @@ def job():
 	result.pop(0)
 
 
-sched.add_job(job, 'interval', seconds =10)
+sched.add_job(switch, 'interval', seconds=10)
 
 sched.start()
 bot.polling(none_stop=True)
-
