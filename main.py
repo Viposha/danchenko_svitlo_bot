@@ -9,6 +9,7 @@ token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
+url = 'https://kyiv.yasno.com.ua/schedule-turn-off-electricity'
 
 
 @bot.message_handler(commands=['start'])
@@ -27,11 +28,14 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_usr_text(message):
-	if (message.text == "Натисніть кнопку і потім вставте повідомлення від Івана"):
+	if (message.text == "Натисни і встав повідомлення від Івана"):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 
 	elif (message.text == "Графік по Данченко 28?"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
+
+	elif (message.text == "Графік по іншій адресі?"):
+		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
 
 	elif (message.text == "Додаткова інформація"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
