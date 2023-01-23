@@ -4,13 +4,13 @@ import os
 from telebot import types
 import schedule
 import time
-from apscheduler.schedulers.background import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
 hostname = '188.190.241.223'
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
-sched = BlockingScheduler()
+sched = BackgroundScheduler
 
 
 
