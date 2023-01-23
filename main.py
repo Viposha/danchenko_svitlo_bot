@@ -10,12 +10,13 @@ bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
 url = 'https://kyiv.yasno.com.ua/schedule-turn-off-electricity'
+result = [0]
 
 
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("Натисніть кнопку і потім вставте повідомлення від Івана")
+	btn1 = types.KeyboardButton("Натисни і встав повідомлення від Івана")
 	btn2 = types.KeyboardButton("Додаткова інформація")
 	markup.add(btn1, btn2)
 	bot.send_message(message.chat.id,
@@ -30,6 +31,9 @@ def start(message):
 def get_usr_text(message):
 	if (message.text == "Натисни і встав повідомлення від Івана"):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
+
+	elif(message.text == "Чи є світло зараз?"):
+		bot.register_next_step_handler(message, is_electricity)
 
 	elif (message.text == "Графік по Данченко 28?"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
@@ -48,12 +52,24 @@ def get_usr_text(message):
 
 	elif (message.text == "Повернутися назад"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-		button1 = types.KeyboardButton("Натисніть кнопку і потім вставте повідомлення від Івана")
+		button1 = types.KeyboardButton("Натисни і встав повідомлення від Івана")
 		button2 = types.KeyboardButton("Додаткова інформація")
 		markup.add(button1, button2)
 		bot.send_message(message.chat.id, text="Ви повернулися в головне меню", reply_markup=markup)
 	else:
 		bot.send_message(message.chat.id, text="Ця команда недоступна")
+
+
+def is_electricity(message):
+
+	"""Перевірка чи є світло в даний момент"""
+
+	if result[0] == 0 and result[1] == 256:
+		bot.send_message(message.chat.id, 'Світла зараз немає')
+	elif result[0] == 256 and result[1] == 0:
+		bot.send_message(message.chat.id, 'Світло є')
+	else:
+		bot.send_message(message.chat.id, 'Наразі невідомо')
 
 
 def text_from_ivan(message):
@@ -74,6 +90,10 @@ def text_from_ivan(message):
 
 
 def extract(message):
+
+	"""Розпаковка інформації від юзера для подальшого запису в базу.
+	   Відокремлення username та user_id"""
+
 	username = message.from_user.username
 	user_id = message.from_user.id
 	return [username, user_id]
@@ -98,24 +118,9 @@ def write(message):
 		print(error)
 
 
-def test():
-	with sqlite3.connect(db) as conn:
-		sql = """SELECT chat_id FROM Users"""
-		data = conn.execute(sql)
-		for chat_id in data:
-			try:
-				bot.send_message(chat_id[0], 'тестовий текст')
-			except telebot.apihelper.ApiTelegramException as error:
-				if "Forbidden: bot was blocked by the user" in error.description:
-					print(error)
-					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-					conn.execute(sql)
-
-
-result = [0]
 def switch():
 
-	"""функція пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
+	"""Пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
 
 	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
