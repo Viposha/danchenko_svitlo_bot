@@ -7,7 +7,8 @@ from telebot import types
 import schedule
 import time
 
-hostname = os.getenv('HOSTNAME')
+# hostname = os.getenv('HOSTNAME')
+hostname = '188.190.241.223'
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
@@ -162,26 +163,30 @@ def write(message):
 # 						conn.execute(sql)
 # 	result.pop(0)
 
-# def test():
-# 	with sqlite3.connect(db) as conn:
-# 		sql = """SELECT chat_id FROM Users"""
-# 		data = conn.execute(sql)
-# 		for chat_id in data:
-# 			try:
-# 				bot.send_message(chat_id[0], 'перевірка_schedule')
-# 			except telebot.apihelper.ApiTelegramException as error:
-# 				if "Forbidden: bot was blocked by the user" in error.description:
-# 					print(error)
-# 					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 					conn.execute(sql)
+def test():
+	with sqlite3.connect(db) as conn:
+		sql = """SELECT chat_id FROM Users"""
+		data = conn.execute(sql)
+		for chat_id in data:
+			try:
+				bot.send_message(chat_id[0], 'перед пінгом')
+			except telebot.apihelper.ApiTelegramException as error:
+				if "Forbidden: bot was blocked by the user" in error.description:
+					print(error)
+					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
+					conn.execute(sql)
 #
 #
 # schedule.every(10).seconds.do(test)
 
 
 bot.polling(none_stop=True)
+
 while True:
-	result.append(os.system('ping -с 1 ' + hostname))
+	test()
+	response = os.system('ping -с 1 ' + hostname)
+	result.append(response)
+	time.sleep(2)
 	if result[0] == 0 and result[1] == 256:
 		with sqlite3.connect(db) as conn:
 			sql = """SELECT chat_id FROM Users"""
