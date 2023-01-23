@@ -4,11 +4,13 @@ import os
 from telebot import types
 import schedule
 import time
+from apscheduler.schedulers.background import BlockingScheduler
 
 hostname = '188.190.241.223'
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
+sched = BlockingScheduler()
 
 
 
@@ -110,7 +112,7 @@ result = [0]
 def job():
 
 	"""функція пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
-	test()
+
 	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
 	if result[0] == 0 and result[1] == 256:
@@ -152,12 +154,8 @@ def job():
 	result.pop(0)
 
 
-schedule.every(10).seconds.do(job)
-schedule.every(5).seconds.do(test)
+sched.add_job(job, 'interval', seconds =10)
 
-test()
-while True:
-	schedule.run_pending()
-	time.sleep(1)
-	bot.polling(none_stop=True)
+sched.start()
+bot.polling(none_stop=True)
 
