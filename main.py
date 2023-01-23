@@ -121,7 +121,7 @@ def write(message):
 def switch():
 
 	"""Пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
-
+	global result
 	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
 	if result[0] == 0 and result[1] == 256:
