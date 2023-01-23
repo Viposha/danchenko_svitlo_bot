@@ -64,10 +64,10 @@ def is_electricity(message):
 
 	"""Перевірка чи є світло в даний момент"""
 
-	if result[0] == 0 and result[1] == 256:
-		bot.send_message(message.chat.id, 'Світла зараз немає')
-	elif result[0] == 256 and result[1] == 0:
+	if result == [0]:
 		bot.send_message(message.chat.id, 'Світло є')
+	elif result == [256]:
+		bot.send_message(message.chat.id, 'Світла нема')
 	else:
 		bot.send_message(message.chat.id, 'Наразі невідомо')
 
