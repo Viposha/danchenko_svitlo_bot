@@ -16,9 +16,11 @@ result = [0]
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("Натисни і встав повідомлення від Івана")
-	btn2 = types.KeyboardButton("Додаткова інформація")
-	markup.add(btn1, btn2)
+	btn1 = types.KeyboardButton("Натисни 2 рази")
+	btn2 = types.KeyboardButton("Графік по Данченко 28?")
+	btn3 = types.KeyboardButton("Графік по іншій адресі?")
+	btn4 = types.KeyboardButton("Не працює")
+	markup.add(btn1, btn2, btn3, btn4)
 	bot.send_message(message.chat.id,
 					 text="Привіт, {0.first_name}!\nТут ти можеш дізнатися про наявність світла. "
 						  "За орієнтир взято будинок по вул.Данченко 28.\n"
@@ -29,8 +31,11 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_usr_text(message):
-	if (message.text == "Натисни і встав повідомлення від Івана"):
-		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
+	if (message.text == "Не працює"):
+		if message.chat.id == 482085376:
+			bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
+		else:
+			bot.send_message(message.chat.id, 'Ця функція не працює')
 
 	elif(message.text == "Натисни 2 рази"):
 		bot.register_next_step_handler(message, is_electricity)
@@ -40,24 +45,6 @@ def get_usr_text(message):
 
 	elif (message.text == "Графік по іншій адресі?"):
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
-
-	elif (message.text == "Додаткова інформація"):
-		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-		btn1 = types.KeyboardButton("Натисни 2 рази")
-		btn2 = types.KeyboardButton("Графік по Данченко 28?")
-		btn3 = types.KeyboardButton("Графік по іншій адресі?")
-		back = types.KeyboardButton("Повернутися назад")
-		markup.add(btn1, btn2, btn3, back)
-		bot.send_message(message.chat.id, text="Що Вас цікавить?", reply_markup=markup)
-
-	elif (message.text == "Повернутися назад"):
-		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-		button1 = types.KeyboardButton("Натисни і встав повідомлення від Івана")
-		button2 = types.KeyboardButton("Додаткова інформація")
-		markup.add(button1, button2)
-		bot.send_message(message.chat.id, text="Ви повернулися в головне меню", reply_markup=markup)
-	else:
-		bot.send_message(message.chat.id, text="Ця команда недоступна")
 
 
 def is_electricity(message):
