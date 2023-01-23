@@ -32,7 +32,7 @@ def get_usr_text(message):
 	if (message.text == "Натисни і встав повідомлення від Івана"):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 
-	elif(message.text == "Чи є світло зараз?"):
+	elif(message.text == "Натисни 2 рази"):
 		bot.register_next_step_handler(message, is_electricity)
 
 	elif (message.text == "Графік по Данченко 28?"):
@@ -43,7 +43,7 @@ def get_usr_text(message):
 
 	elif (message.text == "Додаткова інформація"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-		btn1 = types.KeyboardButton("Чи є світло зараз?")
+		btn1 = types.KeyboardButton("Натисни 2 рази")
 		btn2 = types.KeyboardButton("Графік по Данченко 28?")
 		btn3 = types.KeyboardButton("Графік по іншій адресі?")
 		back = types.KeyboardButton("Повернутися назад")
