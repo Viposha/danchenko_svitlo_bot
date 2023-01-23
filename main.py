@@ -182,6 +182,7 @@ def test():
 
 bot.polling(none_stop=True)
 
+test()
 while True:
 	test()
 	response = os.system('ping -с 1 ' + hostname)
