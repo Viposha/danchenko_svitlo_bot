@@ -30,7 +30,7 @@ def get_usr_text(message):
 	if (message.text == "Натисніть кнопку і потім вставте повідомлення від Івана"):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 
-	if (message.text == "Графік по Данченко 28?"):
+	elif (message.text == "Графік по Данченко 28?"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
 
 	elif (message.text == "Додаткова інформація"):
@@ -144,7 +144,7 @@ def switch():
 	result.pop(0)
 
 
-sched.add_job(switch, 'interval', seconds=10)
+sched.add_job(switch, 'interval', seconds=60)
 
 sched.start()
 bot.polling(none_stop=True)
