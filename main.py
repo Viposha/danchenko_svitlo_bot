@@ -153,8 +153,9 @@ def job():
 
 
 schedule.every(10).seconds.do(job)
+schedule.every(5).seconds.do(test)
 
-
+test()
 while True:
 	schedule.run_pending()
 	time.sleep(1)
