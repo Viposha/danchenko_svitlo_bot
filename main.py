@@ -139,10 +139,9 @@ def switch_electricity():
 
 schedule.every(10).seconds.do(switch_electricity)
 
-bot.polling(none_stop=True)
 
 while True:
 	schedule.run_pending()
 	time.sleep(1)
-
+	bot.polling(none_stop=True)
 
