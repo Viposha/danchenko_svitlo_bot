@@ -1,13 +1,10 @@
 import telebot
 import sqlite3
-from sqlite3 import Error
-from db_creation import db_create
 import os
 from telebot import types
 import schedule
 import time
 
-# hostname = os.getenv('HOSTNAME')
 hostname = '188.190.241.223'
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
@@ -95,99 +92,12 @@ def write(message):
 		print(error)
 
 
-# def switch_electricity():
-#
-# 	"""функція пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
-# 	#
-# 	with sqlite3.connect(db) as conn:
-# 		sql = """SELECT chat_id FROM Users"""
-# 		data = conn.execute(sql)
-# 		for chat_id in data:
-# 			try:
-# 				bot.send_message(chat_id[0], 'Перед пінгом')
-# 			except telebot.apihelper.ApiTelegramException as error:
-# 				if "Forbidden: bot was blocked by the user" in error.description:
-# 					print(error)
-# 					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 					conn.execute(sql)
-# 	#
-# 	result.append(os.system('ping ' + hostname))
-# 	#
-# 	with sqlite3.connect(db) as conn:
-# 		sql = """SELECT chat_id FROM Users"""
-# 		data = conn.execute(sql)
-# 		for chat_id in data:
-# 			try:
-# 				bot.send_message(chat_id[0], 'після пінга')
-# 			except telebot.apihelper.ApiTelegramException as error:
-# 				if "Forbidden: bot was blocked by the user" in error.description:
-# 					print(error)
-# 					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 					conn.execute(sql)
-# 	#
-# 	if result[0] == 0 and result[1] == 256:
-# 		with sqlite3.connect(db) as conn:
-# 			sql = """SELECT chat_id FROM Users"""
-# 			data = conn.execute(sql)
-# 			for chat_id in data:
-# 				try:
-# 					bot.send_message(chat_id[0], 'Світло вимкнули')
-# 				except telebot.apihelper.ApiTelegramException as error:
-# 					if "Forbidden: bot was blocked by the user" in error.description:
-# 						print(error)
-# 						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 						conn.execute(sql)
-# 	elif result[0] == 256 and result[1] == 0:
-# 		with sqlite3.connect(db) as conn:
-# 			sql = """SELECT chat_id FROM Users"""
-# 			data = conn.execute(sql)
-# 			for chat_id in data:
-# 				try:
-# 					bot.send_message(chat_id[0], 'Світло ввімкнули')
-# 				except telebot.apihelper.ApiTelegramException as error:
-# 					if "Forbidden: bot was blocked by the user" in error.description:
-# 						print(error)
-# 						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 						conn.execute(sql)
-# 	else:
-# 		with sqlite3.connect(db) as conn:
-# 			sql = """SELECT chat_id FROM Users"""
-# 			data = conn.execute(sql)
-# 			for chat_id in data:
-# 				try:
-# 					bot.send_message(chat_id[0], 'Перевірка')
-# 				except telebot.apihelper.ApiTelegramException as error:
-# 					if "Forbidden: bot was blocked by the user" in error.description:
-# 						print(error)
-# 						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-# 						conn.execute(sql)
-# 	result.pop(0)
+def switch_electricity():
 
-def test():
-	with sqlite3.connect(db) as conn:
-		sql = """SELECT chat_id FROM Users"""
-		data = conn.execute(sql)
-		for chat_id in data:
-			try:
-				bot.send_message(chat_id[0], 'перед пінгом')
-			except telebot.apihelper.ApiTelegramException as error:
-				if "Forbidden: bot was blocked by the user" in error.description:
-					print(error)
-					sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-					conn.execute(sql)
-#
-#
-# schedule.every(10).seconds.do(test)
+	"""функція пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
 
-
-bot.polling(none_stop=True)
-
-test()
-while True:
-	test()
-	response = os.system('ping -с 1 ' + hostname)
+	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
-	time.sleep(2)
 	if result[0] == 0 and result[1] == 256:
 		with sqlite3.connect(db) as conn:
 			sql = """SELECT chat_id FROM Users"""
@@ -213,19 +123,16 @@ while True:
 						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
 						conn.execute(sql)
 	else:
-		with sqlite3.connect(db) as conn:
-			sql = """SELECT chat_id FROM Users"""
-			data = conn.execute(sql)
-			for chat_id in data:
-				try:
-					bot.send_message(chat_id[0], 'Перевірка_нова')
-				except telebot.apihelper.ApiTelegramException as error:
-					if "Forbidden: bot was blocked by the user" in error.description:
-						print(error)
-						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-						conn.execute(sql)
+		pass
 	result.pop(0)
-	time.sleep(10)
-# while True:
-# 	schedule.run_pending()
-# 	time.sleep(1)
+
+
+schedule.every(10).seconds.do(switch_electricity)
+
+bot.polling(none_stop=True)
+
+while True:
+	schedule.run_pending()
+	time.sleep(1)
+
+
