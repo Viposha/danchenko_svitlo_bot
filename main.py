@@ -140,17 +140,7 @@ def job():
 						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
 						conn.execute(sql)
 	else:
-		with sqlite3.connect(db) as conn:
-			sql = """SELECT chat_id FROM Users"""
-			data = conn.execute(sql)
-			for chat_id in data:
-				try:
-					bot.send_message(chat_id[0], 'Перевірка шедуле з контейнера')
-				except telebot.apihelper.ApiTelegramException as error:
-					if "Forbidden: bot was blocked by the user" in error.description:
-						print(error)
-						sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
-						conn.execute(sql)
+		pass
 	result.pop(0)
 
 
