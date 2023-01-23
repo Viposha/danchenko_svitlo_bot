@@ -9,7 +9,6 @@ token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
-photo = open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb')
 
 
 @bot.message_handler(commands=['start'])
@@ -32,7 +31,7 @@ def get_usr_text(message):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 
 	if (message.text == "Графік по Данченко 28?"):
-		bot.send_photo(message.chat.id, photo)
+		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
 
 	elif (message.text == "Додаткова інформація"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
