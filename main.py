@@ -17,7 +17,7 @@ sched = BackgroundScheduler()
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("Є інформація від Івана. Він пише:")
+	btn1 = types.KeyboardButton("Натисніть кнопку і потім вставте повідомлення від Івана")
 	btn2 = types.KeyboardButton("Додаткова інформація")
 	markup.add(btn1, btn2)
 	bot.send_message(message.chat.id,
@@ -30,21 +30,21 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_usr_text(message):
-	if (message.text == "Є інформація від Івана. Він пише:"):
+	if (message.text == "Натисніть кнопку і потім вставте повідомлення від Івана"):
 		bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 
 	elif (message.text == "Додаткова інформація"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 		btn1 = types.KeyboardButton("Чи є світло зараз?")
-		btn2 = types.KeyboardButton("Який графік по Данченко 28?")
-		btn3 = types.KeyboardButton("Який графік по іншій адресі?")
+		btn2 = types.KeyboardButton("Графік по Данченко 28?")
+		btn3 = types.KeyboardButton("Графік по іншій адресі?")
 		back = types.KeyboardButton("Повернутися назад")
 		markup.add(btn1, btn2, btn3, back)
 		bot.send_message(message.chat.id, text="Що Вас цікавить?", reply_markup=markup)
 
 	elif (message.text == "Повернутися назад"):
 		markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-		button1 = types.KeyboardButton("Є інформація від Івана. Він пише:")
+		button1 = types.KeyboardButton("Натисніть кнопку і потім вставте повідомлення від Івана")
 		button2 = types.KeyboardButton("Додаткова інформація")
 		markup.add(button1, button2)
 		bot.send_message(message.chat.id, text="Ви повернулися в головне меню", reply_markup=markup)
