@@ -21,9 +21,10 @@ def start(message):
 	btn3 = types.KeyboardButton("Графік інша адреса")
 	markup.add(btn1, btn2, btn3)
 	bot.send_message(message.chat.id,
-					 text="Привіт, {0.first_name}!\nТут ти можеш дізнатися про наявність світла. "
-						  "За орієнтир взято будинок по вул.Данченко 28.\n"
-						  "Інформацію від енергетика Івана про планові дії\n"
+					 text="Вітаю, {0.first_name}!\nТут ти зможеш дізнатися про наявність світла\n"
+						  "Система автоматично за 5 хвилин повідомить про ввімкнення чи вимкнення світла\n"
+						  "За орієнтир взято будинок по вул.Данченко 28\n"
+						  "Інформацію від енергетика про планові дії\n"
 						  "Та додаткову інформацію по освітленню".format(message.from_user), reply_markup=markup)
 	write(message)
 
@@ -50,8 +51,6 @@ def get_usr_text(message):
 			bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
 		else:
 			bot.send_message(message.chat.id, f'Ця команда недоступна\nПочни роботу з /start')
-
-
 
 
 def text_from_ivan(message):
