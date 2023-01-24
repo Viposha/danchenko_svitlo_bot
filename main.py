@@ -10,7 +10,7 @@ bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
 url = 'https://kyiv.yasno.com.ua/schedule-turn-off-electricity'
-result = [0]
+result = [5]
 
 
 @bot.message_handler(commands=['start'])
@@ -19,8 +19,7 @@ def start(message):
 	btn1 = types.KeyboardButton("Зараз є світло?")
 	btn2 = types.KeyboardButton("Графік Данченка 28")
 	btn3 = types.KeyboardButton("Графік інша адреса")
-	btn4 = types.KeyboardButton("Не працює")
-	markup.add(btn1, btn2, btn3, btn4)
+	markup.add(btn1, btn2, btn3)
 	bot.send_message(message.chat.id,
 					 text="Привіт, {0.first_name}!\nТут ти можеш дізнатися про наявність світла. "
 						  "За орієнтир взято будинок по вул.Данченко 28.\n"
@@ -31,13 +30,8 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def get_usr_text(message):
-	if (message.text == "Не працює"):
-		if message.chat.id == 482085376:
-			bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
-		else:
-			bot.send_message(message.chat.id, 'Ця функція не працює')
 
-	elif(message.text == "Зараз є світло?"):
+	if(message.text == "Зараз є світло?"):
 		if result == [0]:
 			bot.send_message(message.chat.id, 'Світло є')
 		elif result == [256]:
@@ -52,7 +46,11 @@ def get_usr_text(message):
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
 
 	else:
-		bot.send_message(message.chat.id, f'Ця команда недоступна\nПочни роботу з /start')
+		if message.chat.id == 482085376:
+			bot.register_next_step_handler(message, text_from_ivan) # Чекаю новий message і передаю в функцію text_from_ivan
+		else:
+			bot.send_message(message.chat.id, f'Ця команда недоступна\nПочни роботу з /start')
+
 
 
 
