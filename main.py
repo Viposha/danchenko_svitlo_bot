@@ -51,6 +51,10 @@ def get_usr_text(message):
 	elif (message.text == "Графік інша адреса"):
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
 
+	else:
+		bot.send_message(message.chat.id, f'Ця команда недоступна\nПочни роботу з /start')
+
+
 
 def text_from_ivan(message):
 
