@@ -135,7 +135,7 @@ def switch():
 	result.pop(0)
 
 
-sched.add_job(switch, 'interval', seconds=60)
+sched.add_job(switch, 'interval', minutes=3)
 
 sched.start()
 bot.polling(none_stop=True)
