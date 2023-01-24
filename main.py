@@ -16,9 +16,9 @@ result = [0]
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("Натисни 2 рази")
-	btn2 = types.KeyboardButton("Графік по Данченко 28?")
-	btn3 = types.KeyboardButton("Графік по іншій адресі?")
+	btn1 = types.KeyboardButton("Зараз є світло?")
+	btn2 = types.KeyboardButton("Графік Данченка 28")
+	btn3 = types.KeyboardButton("Графік інша адреса")
 	btn4 = types.KeyboardButton("Не працює")
 	markup.add(btn1, btn2, btn3, btn4)
 	bot.send_message(message.chat.id,
@@ -37,26 +37,19 @@ def get_usr_text(message):
 		else:
 			bot.send_message(message.chat.id, 'Ця функція не працює')
 
-	elif(message.text == "Натисни 2 рази"):
-		bot.register_next_step_handler(message, is_electricity)
+	elif(message.text == "Зараз є світло?"):
+		if result == [0]:
+			bot.send_message(message.chat.id, 'Світло є')
+		elif result == [256]:
+			bot.send_message(message.chat.id, 'Світла нема')
+		else:
+			bot.send_message(message.chat.id, 'Наразі невідомо')
 
-	elif (message.text == "Графік по Данченко 28?"):
+	elif (message.text == "Графік Данченка 28"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
 
-	elif (message.text == "Графік по іншій адресі?"):
+	elif (message.text == "Графік інша адреса"):
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
-
-
-def is_electricity(message):
-
-	"""Перевірка чи є світло в даний момент"""
-
-	if result == [0]:
-		bot.send_message(message.chat.id, 'Світло є')
-	elif result == [256]:
-		bot.send_message(message.chat.id, 'Світла нема')
-	else:
-		bot.send_message(message.chat.id, 'Наразі невідомо')
 
 
 def text_from_ivan(message):
