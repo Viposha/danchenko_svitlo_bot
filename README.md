@@ -1,18 +1,16 @@
-<h1 align="center">Hi there, I'm <a href="https://www.linkedin.com/in/vitalii-hoshchenko/" target="_blank">Vitalii</a> 
-<img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
-<h3 align="center">Junior Python developer. And this is Данченка Світло Telegram Bot</h3>
+<h2 align="center">Данченка Світло Telegram Bot</h2>
 
 <p align="center">
 <img src="screen.jpg" alt="drawing" width="200"/>
 </p>
 
-It`s simpe telegram bot with some specifics:
+It`s a simpe telegram bot with some specifics:
 - After /start command user is saved to small db build with sqlite3
-- Main func ping routers IP and when response changed send message to all users in db
+- Main func pings routers IP and when response changed sends message to all users in db
 - CI/CD is integrated. After git push command it:
-  * Build Docker image
-  * Push container to DigitalOcean Container Registry
-  * Deploy to Digital Ocean droplet via SSH action
+  * Builds Docker image
+  * Pushes container to DigitalOcean Container Registry
+  * Deploys to Digital Ocean droplet via SSH action
 
     
    
