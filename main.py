@@ -4,7 +4,7 @@ import os
 from telebot import types
 from apscheduler.schedulers.background import BackgroundScheduler
 
-hostname = '188.190.241.223'
+hostname = os.getenv('HOSTNAME')
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
 db = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
