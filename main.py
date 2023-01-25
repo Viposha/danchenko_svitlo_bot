@@ -16,9 +16,9 @@ result = [5]
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("Зараз є світло?")
-	btn2 = types.KeyboardButton("Графік Данченка 28")
-	btn3 = types.KeyboardButton("Графік інша адреса")
+	btn1 = types.KeyboardButton("\U0001F50EЗараз є світло?")
+	btn2 = types.KeyboardButton("\U0001F3E0Графік Данченка 28")
+	btn3 = types.KeyboardButton("\U0001F4CAГрафік інша адреса")
 	markup.add(btn1, btn2, btn3)
 	bot.send_message(message.chat.id,
 					 text="Вітаю, {0.first_name}!\nТут ти зможеш дізнатися про наявність світла\n"
@@ -32,18 +32,18 @@ def start(message):
 @bot.message_handler(content_types=['text'])
 def get_usr_text(message):
 
-	if(message.text == "Зараз є світло?"):
+	if(message.text == "\U0001F50EЗараз є світло?"):
 		if result == [0]:
-			bot.send_message(message.chat.id, 'Світло є')
+			bot.send_message(message.chat.id, 'Світло є \U0001F7E2')
 		elif result == [256]:
-			bot.send_message(message.chat.id, 'Світла нема')
+			bot.send_message(message.chat.id, 'Світла нема \U0001F534')
 		else:
-			bot.send_message(message.chat.id, 'Наразі невідомо')
+			bot.send_message(message.chat.id, 'Наразі невідомо \U0001F7E0\nЗапитай через 5 хвилин')
 
-	elif (message.text == "Графік Данченка 28"):
+	elif (message.text == "\U0001F3E0Графік Данченка 28"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
 
-	elif (message.text == "Графік інша адреса"):
+	elif (message.text == "\U0001F4CAГрафік інша адреса"):
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
 
 	else:
@@ -111,7 +111,7 @@ def switch():
 			data = conn.execute(sql)
 			for chat_id in data:
 				try:
-					bot.send_message(chat_id[0], 'Світло вимкнули')
+					bot.send_message(chat_id[0], 'Світло вимкнули \U0001F303')
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
 						print(error)
@@ -123,7 +123,7 @@ def switch():
 			data = conn.execute(sql)
 			for chat_id in data:
 				try:
-					bot.send_message(chat_id[0], 'Світло ввімкнули')
+					bot.send_message(chat_id[0], 'Світло ввімкнули \U0001F306')
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
 						print(error)
