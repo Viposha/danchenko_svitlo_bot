@@ -111,7 +111,7 @@ def switch():
 			data = conn.execute(sql)
 			for chat_id in data:
 				try:
-					bot.send_message(chat_id[0], 'Світло вимкнули \U0001F303')
+					bot.send_message(chat_id[0], '\U0001F303 Світло вимкнули')
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
 						print(error)
@@ -123,7 +123,7 @@ def switch():
 			data = conn.execute(sql)
 			for chat_id in data:
 				try:
-					bot.send_message(chat_id[0], 'Світло ввімкнули \U0001F306')
+					bot.send_message(chat_id[0], '\U0001F306 Світло ввімкнули')
 				except telebot.apihelper.ApiTelegramException as error:
 					if "Forbidden: bot was blocked by the user" in error.description:
 						print(error)
