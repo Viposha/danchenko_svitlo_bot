@@ -4,7 +4,7 @@
 <img src="screen.jpg" alt="drawing" width="200"/>
 </p>
 
-It`s a simpe telegram bot with some specifics:
+It`s a simple telegram bot with some specifics:
 - After /start command user is saved to small db build with sqlite3
 - Main func pings routers IP and when response changed sends message to all users in db
 - CI/CD is integrated. After git push command it:
