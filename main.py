@@ -16,9 +16,9 @@ result = [5]
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-	btn1 = types.KeyboardButton("\U0001F50EЗараз є світло?")
-	btn2 = types.KeyboardButton("\U0001F3E0Графік Данченка 28")
-	btn3 = types.KeyboardButton("\U0001F4CAГрафік інша адреса")
+	btn1 = types.KeyboardButton("\U0001F50E Зараз є світло?")
+	btn2 = types.KeyboardButton("\U0001F3E0 Графік Данченка 28")
+	btn3 = types.KeyboardButton("\U0001F4CA Графік інша адреса")
 	markup.add(btn1, btn2, btn3)
 	bot.send_message(message.chat.id,
 					 text="Вітаю, {0.first_name}!\nТут ти зможеш дізнатися про наявність світла\n"
@@ -34,11 +34,11 @@ def get_usr_text(message):
 
 	if(message.text == "\U0001F50EЗараз є світло?"):
 		if result == [0]:
-			bot.send_message(message.chat.id, 'Світло є \U0001F7E2')
+			bot.send_message(message.chat.id, '\U0001F7E2 Світло є')
 		elif result == [256]:
-			bot.send_message(message.chat.id, 'Світла нема \U0001F534')
+			bot.send_message(message.chat.id, '\U0001F534 Світла нема')
 		else:
-			bot.send_message(message.chat.id, 'Наразі невідомо \U0001F7E0\nЗапитай через 5 хвилин')
+			bot.send_message(message.chat.id, '\U0001F7E0 Наразі невідомо\nЗапитай через 5 хвилин')
 
 	elif (message.text == "\U0001F3E0Графік Данченка 28"):
 		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
