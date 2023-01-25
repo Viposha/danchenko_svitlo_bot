@@ -2,6 +2,10 @@
 <img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/></h1>
 <h3 align="center">Junior Python developer. And this is Данченка Світло Telegram Bot</h3>
 
+<p align="center">
+<img src="screen.jpg" alt="drawing" width="200"/>
+</p>
+
 It`s simpe telegram bot with some specifics:
 - After /start command user is saved to small db build with sqlite3
 - Main func ping routers IP and when response changed send message to all users in db
