@@ -29,7 +29,7 @@ sql_insert_into_db = """
 sql_select_chat_id = """SELECT chat_id FROM Users"""
 
 db.create_conn()
-db.create_table(sql_create_table)
+db.execute_command(sql_create_table)  # Create table to db
 
 
 @bot.message_handler(commands=['start'])
@@ -39,14 +39,14 @@ def start(message):
 	btn2 = types.KeyboardButton("\U0001F3E0 Графік Данченка 28")
 	btn3 = types.KeyboardButton("\U0001F4CA Графік інша адреса")
 	markup.add(btn1, btn2, btn3)
-	bot.send_message(message.chat.id,
-					 text="Вітаю, {0.first_name}!\nТут ти зможеш дізнатися про наявність світла\n"
-						  "За орієнтир взято будинок по вул. Данченка 28\n"
-						  "Система автоматично за 5 хвилин повідомить про ввімкнення чи вимкнення світла\n"
-						  "Інформацію від енергетика про планові дії\n"
-						  "Та додаткову інформацію по освітленню".format(message.from_user), reply_markup=markup)
+	bot.send_message(
+					message.chat.id, text="Вітаю, {0.first_name}!\nТут ти зможеш дізнатися про наявність світла\n"
+					"За орієнтир взято будинок по вул. Данченка 28\n"
+					"Система автоматично за 5 хвилин повідомить про ввімкнення чи вимкнення світла\n"
+					"Інформацію від енергетика про планові дії\n"
+					"Та додаткову інформацію по освітленню".format(message.from_user), reply_markup=markup)
 	try:
-		db.execute_command(sql_insert_into_db, extract(message))
+		db.execute_command_params(sql_insert_into_db, extract(message))
 	except sqlite3.IntegrityError as error:
 		print(error)
 
@@ -91,18 +91,19 @@ def text_from_ivan(message):
 
 def extract(message):
 
-	"""Розпаковка інформації від юзера для подальшого запису в базу.
-	   Відокремлення username та user_id"""
+	""" Розпаковка інформації від юзера для подальшого запису в базу. Відокремлення username та user_id"""
 
 	username = message.from_user.username
-	if username == None:
+	if username is None:
 		username = 'name:{0.first_name}'.format(message.from_user)
 	user_id = message.from_user.id
 	return username, user_id
 
 
 def switch():
+
 	"""Пінгує другий роутер і при зміні result[0] на result[0,1] відправляє повідомлення всім з db"""
+
 	global result
 	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
@@ -122,6 +123,6 @@ def switch():
 	result.pop(0)
 
 
-sched.add_job(switch, 'interval', minutes=3)
+sched.add_job(switch, 'interval', minutes=2)
 sched.start()
 bot.polling(none_stop=True)

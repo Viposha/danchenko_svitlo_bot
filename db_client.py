@@ -16,13 +16,13 @@ class DBClient:
 
 	"""Create Table in db with query"""
 
-	def create_table(self, query: str):
+	def execute_command(self, query: str):
 		self.conn.execute(query)
 		self.conn.commit()
 
 	"""Execute any query to db"""
 
-	def execute_command(self, query: str, params: tuple):
+	def execute_command_params(self, query: str, params: tuple):
 		self.conn.execute(query, params)
 		self.conn.commit()
 
