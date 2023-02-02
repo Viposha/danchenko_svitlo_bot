@@ -14,6 +14,11 @@ class DBClient:
 	def create_conn(self):
 		self.conn = sqlite3.connect(self.pathname, check_same_thread=False)
 
+	""" Close connection to db"""
+
+	def close_conn(self):
+		self.conn.close()
+
 	"""Create Table in db with query"""
 
 	def execute_command(self, query: str):

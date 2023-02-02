@@ -30,6 +30,7 @@ sql_select_chat_id = """SELECT chat_id FROM Users"""
 
 db.create_conn()
 db.execute_command(sql_create_table)  # Create table to db
+db.close_conn()
 
 
 @bot.message_handler(commands=['start'])
@@ -46,7 +47,9 @@ def start(message):
 					"Інформацію від енергетика про планові дії\n"
 					"Та додаткову інформацію по освітленню".format(message.from_user), reply_markup=markup)
 	try:
+		db.create_conn()
 		db.execute_command_params(sql_insert_into_db, extract(message))
+		db.close_conn()
 	except sqlite3.IntegrityError as error:
 		print(error)
 
@@ -79,6 +82,7 @@ def text_from_ivan(message):
 
 	"""Відправляю повідомлення (Що сказав Іван) всім юзерам з бази даних"""
 
+	db.create_conn()
 	data = db.execute_select_command(sql_select_chat_id)
 	for chat_id in data:
 		try:
@@ -87,6 +91,7 @@ def text_from_ivan(message):
 			if "Forbidden: bot was blocked by the user" in error.description:
 				sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
 				db.execute_command(sql)
+	db.close_conn()
 
 
 def extract(message):
@@ -107,6 +112,7 @@ def switch():
 	global result
 	response = os.system('ping -c 4 ' + hostname)
 	result.append(response)
+	db.create_conn()
 	data = db.execute_select_command(sql_select_chat_id)
 	for chat_id in data:
 		try:
@@ -120,6 +126,7 @@ def switch():
 			if "Forbidden: bot was blocked by the user" in error.description:
 				sql = f"""DELETE FROM Users WHERE chat_id == {chat_id[0]}"""
 				db.execute_command(sql)
+	db.close_conn()
 	result.pop(0)
 
 
