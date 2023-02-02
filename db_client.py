@@ -32,4 +32,3 @@ class DBClient:
 		cur = self.conn.cursor()
 		cur.execute(query)
 		return cur.fetchall()
-
