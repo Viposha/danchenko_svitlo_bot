@@ -34,14 +34,6 @@ def clean_database(db_connection):
 
 
 @pytest.fixture(scope='session')
-def crete_user_in_database_func(db_connection):
-	def create_user(id, username, chat_id):
-		db_connection.execute("""INSERT INTO Users(id, username,chat_id) VALUES(?, ?, ?);""", (id, username, chat_id))
-		db_connection.commit()
-	return create_user
-
-
-@pytest.fixture(scope='session')
 def create_read_users_from_database_function(db_connection):
 	def read_user():
 		cursor = db_connection.cursor()
