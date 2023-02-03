@@ -2,23 +2,23 @@ import sqlite3
 import pytest
 
 TEST_DB_URL = r'V:\python\project\danchenko_svitlo_bot\test_users.db'
+SQL_CREATE_TABLE = """ 
+						CREATE TABLE IF NOT EXISTS Users 
+						(
+						id integer PRIMARY KEY,
+						username text,
+						chat_id integer UNIQUE
+						); 
+					"""
+SQL_DROP_TABLE = """DROP TABLE Users;"""
 
 
 @pytest.fixture(scope='session', autouse=True)
 def create_tables(db_connection):
-	sql_create_table = """ 
-							CREATE TABLE IF NOT EXISTS Users 
-							(
-							id integer PRIMARY KEY,
-							username text,
-							chat_id integer UNIQUE
-							); 
-						"""
-	sql_drop = """DROP TABLE Users;"""
-	db_connection.execute(sql_create_table)
+	db_connection.execute(SQL_CREATE_TABLE)
 	db_connection.commit()
 	yield
-	db_connection.execute(sql_drop)
+	db_connection.execute(SQL_DROP_TABLE)
 	db_connection.commit()
 
 
@@ -31,12 +31,3 @@ def db_connection():
 def clean_database(db_connection):
 	db_connection.execute("""DELETE FROM Users;""")
 	db_connection.commit()
-
-
-@pytest.fixture(scope='session')
-def create_read_users_from_database_function(db_connection):
-	def read_user():
-		cursor = db_connection.cursor()
-		cursor.execute("""SELECT * FROM Users;""")
-		return cursor.fetchall()
-	return read_user
