@@ -4,6 +4,7 @@ import os
 from telebot import types
 from apscheduler.schedulers.background import BackgroundScheduler
 from db_client import DBClient
+from datetime import date
 
 hostname = os.getenv('HOSTNAME')
 token = os.getenv('TOKEN')
@@ -66,7 +67,8 @@ def get_usr_text(message):
 			bot.send_message(message.chat.id, '\U0001F7E0 Наразі невідомо\nЗапитай через 5 хвилин')
 
 	elif message.text == "\U0001F3E0 Графік Данченка 28":
-		bot.send_photo(message.chat.id, open("/danchenko_svitlo_bot/database/graph_28.jpg", 'rb'))
+		current_date = date.weekday(date.today())
+		bot.send_photo(message.chat.id, open(f"/danchenko_svitlo_bot/database/graph/{current_date}.jpg", 'rb'))
 
 	elif message.text == "\U0001F4CA Графік інша адреса":
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
