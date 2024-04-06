@@ -9,7 +9,7 @@ from datetime import date
 hostname = os.getenv('HOSTNAME')
 token = os.getenv('TOKEN')
 bot = telebot.TeleBot(token)
-pathname = r"/danchenko_svitlo_bot/database/danchenko_svitlo_users.db"
+pathname = r"database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
 url = 'https://kyiv.yasno.com.ua/schedule-turn-off-electricity'
 db = DBClient(pathname)
