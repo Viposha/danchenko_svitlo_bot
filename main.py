@@ -6,7 +6,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from db_client import DBClient
 from datetime import date
 
-hostname = os.getenv('HOSTNAME')
+#hostname = os.getenv('HOSTNAME')
+hostname = '188.190.241.223'
 #token = os.getenv('TOKEN')
 token = '5924761149:AAErqGWIf0NJ2UboK7OJ4-wXfEwTq-UbAF0'
 bot = telebot.TeleBot(token)
