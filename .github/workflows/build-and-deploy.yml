@@ -73,7 +73,7 @@ jobs:
             # Remove old image
             docker image rm $(echo $REGISTRY)/$(echo $IMAGE_NAME)
             # Run a new container from a new image
-            docker run -d -e TOKEN -e HOSTNAME -e TZ='Ukraine/Kyiv' -v /$(echo $User)/database/:/danchenko_svitlo_bot/database \
+            docker run -d -e TOKEN -e HOSTNAME -e TZ=Europe/Kyiv -v /$(echo $User)/database/:/danchenko_svitlo_bot/database \
             --restart always \
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
