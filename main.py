@@ -13,7 +13,7 @@ pathname = r"database/danchenko_svitlo_users.db"
 sched = BackgroundScheduler()
 url = 'https://kyiv.yasno.com.ua/schedule-turn-off-electricity'
 db = DBClient(pathname)
-result = [5]
+result = [4]
 
 sql_create_table = """ 
 						CREATE TABLE IF NOT EXISTS Users 
