@@ -67,8 +67,9 @@ def get_usr_text(message):
 			bot.send_message(message.chat.id, '\U0001F7E0 Наразі невідомо\nЗапитай через 5 хвилин')
 
 	elif message.text == "\U0001F3E0 Графік Данченка 28":
-		current_date = date.weekday(date.today())
-		bot.send_photo(message.chat.id, open(f"/danchenko_svitlo_bot/database/graph/{current_date}.jpg", 'rb'))
+		bot.send_message(message.chat.id, 'Наразі відбуваються постійні зміни у графіку\nПеревір графік на Київ Цифровий чи натисни Графік інша адреса')
+		# current_date = date.weekday(date.today())
+		# bot.send_photo(message.chat.id, open(f"/danchenko_svitlo_bot/database/graph/{current_date}.jpg", 'rb'))
 
 	elif message.text == "\U0001F4CA Графік інша адреса":
 		bot.send_message(message.chat.id, f'Перейди по посиланню\n{url}')
